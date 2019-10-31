@@ -1,0 +1,20 @@
+[Unit]
+Description=TC-GUI service
+After=network.target
+After=systemd-user-sessions.service
+After=network-online.target
+
+[Service]
+Type=simple
+RemainAfterExit=no
+ExecStart=/bin/tcgui-start
+TimeoutStopSec=60
+KillMode=control-group
+KillSignal=SIGINT
+Restart=always
+RestartSec=59s
+Environment=HOME=/root/
+
+[Install]
+WantedBy=multi-user.target
+Alias=tcgui

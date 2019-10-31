@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import subprocess, os, re, argparse
 from flask import Flask, render_template, redirect, request, url_for
 

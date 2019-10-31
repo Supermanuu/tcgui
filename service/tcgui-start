@@ -1,0 +1,22 @@
+#!/bin/bash
+
+_term() { 
+  echo "Caught SIGTERM signal!" 
+  kill -SIGINT "$child" 2>/dev/null
+}
+
+trap _term SIGINT
+trap _term SIGTERM
+
+source /bin/tcgui-env
+( [ -z $TCGUI_REPO_PATH ] || [ -z $TCGUI_INTERFACE ] ) && echo "Bad installation, please reinstall tcgui" && exit 1
+echo "TCGUI_REPO_PATH=$TCGUI_REPO_PATH"
+echo "TCGUI_INTERFACE=$TCGUI_INTERFACE"
+cd $TCGUI_REPO_PATH
+IP=$(ip -4 addr show $TCGUI_INTERFACE | grep -oP '(?<=inet )\d+(\.\d+){3}')
+[ -z $IP ] && echo "No ip found on interface $TCGUI_INTERFACE" && exit 1
+./tcgui.py --ip $IP
+
+child=$! 
+#wait "$child" 2>&1 > /dev/null
+exit
