@@ -17,6 +17,4 @@ IP=$(ip -4 addr show $TCGUI_INTERFACE | grep -oP '(?<=inet )\d+(\.\d+){3}')
 [ -z $IP ] && echo "No ip found on interface $TCGUI_INTERFACE" && exit 1
 ./tcgui.py --ip $IP
 
-child=$! 
-#wait "$child" 2>&1 > /dev/null
 exit
